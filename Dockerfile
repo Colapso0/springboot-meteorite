@@ -2,7 +2,8 @@
 FROM maven:3.8.5-openjdk-17-slim AS build
 
 WORKDIR /app
-COPY . .
+COPY stackbones/stack/meteorite/meteorite/pom.xml /app/
+COPY stackbones/stack/meteorite/meteorite/src /app/src/
 RUN ./mvnw clean package -DskipTests
 
 # Etapa de ejecución
@@ -11,4 +12,3 @@ WORKDIR /app
 COPY --from=build /app/target/*.jar app.jar
 EXPOSE 8080
 ENTRYPOINT ["java", "-jar", "app.jar"]
-
